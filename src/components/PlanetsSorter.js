@@ -36,30 +36,22 @@ class PlanetsSorter extends Component {
         }
       }
     },
-    tempSelectedRules: null,
+    tempSelectedRules: [],
+    initialSyncedTempSelRulesWithGlobalPreDefinedSelRules: false,
     open: false
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.tempSelectedRules === null) {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
+    if (prevState.initialSyncedTempSelRulesWithGlobalPreDefinedSelRules === false) {
       return {
-        open: prevState.open,
-        allRules: clonedAllRules,
         tempSelectedRules: nextProps.selectedRules.map(rule => {
           return {...rule}
-        })
+        }),
+        initialSyncedTempSelRulesWithGlobalPreDefinedSelRules: true
       }
     }
 
-    return prevState
+    return null
   }
 
   getTempSortedColumns() {
@@ -80,22 +72,12 @@ class PlanetsSorter extends Component {
     const sortableColsYetToBeSorted = Utils.arrayDiff(sortableCols, sortedCols)
 
     this.setState(prevState => {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
       // Deep clone 'tempSelectedRules' state
       const clonedTempSelectedRules = prevState.tempSelectedRules.map(rule => {
         return {...rule}
       })
 
       return {
-        ...prevState,
-        allRules: clonedAllRules,
         tempSelectedRules: [
           ...clonedTempSelectedRules,
           {
@@ -114,14 +96,6 @@ class PlanetsSorter extends Component {
   onDeleteRule = order => {
     // Update the 'tempSelectedRules' state
     this.setState(prevState => {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
       // Deep clone 'tempSelectedRules' state
       const clonedTempSelectedRules = prevState.tempSelectedRules.map(rule => {
         return {...rule}
@@ -130,8 +104,6 @@ class PlanetsSorter extends Component {
       clonedTempSelectedRules.splice(order, 1)
 
       return {
-        ...prevState,
-        allRules: clonedAllRules,
         tempSelectedRules: clonedTempSelectedRules
       }
     }, () => {
@@ -160,14 +132,6 @@ class PlanetsSorter extends Component {
 
     // Update the 'tempSelectedRules' state
     this.setState(prevState => {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
       // Deep clone 'tempSelectedRules' state
       const clonedTempSelectedRules = prevState.tempSelectedRules.map(rule => {
         return {...rule}
@@ -176,8 +140,6 @@ class PlanetsSorter extends Component {
       clonedTempSelectedRules.splice(order, 1, rule)
 
       return {
-        ...prevState,
-        allRules: clonedAllRules,
         tempSelectedRules: clonedTempSelectedRules
       }
     }, () => {
@@ -191,40 +153,16 @@ class PlanetsSorter extends Component {
 
     // Hide the sort window
     this.setState(prevState => {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
-      // Deep clone 'tempSelectedRules' state
-      const clonedTempSelectedRules = prevState.tempSelectedRules.map(rule => {
-        return {...rule}
-      })
-
       return {
-        open: false,
-        allRules: clonedAllRules,
-        tempSelectedRules: clonedTempSelectedRules
+        open: false
       }
     })
   }
 
   toggleSort = () => {
     this.setState(prevState => {
-      // Deep clone 'availavbleRules' state
-      const clonedAllRules = {...prevState.allRules}
-      for (let col in prevState.allRules) {
-        for (let direction in prevState['allRules'][col]) {
-          clonedAllRules[col][direction] = {...prevState['allRules'][col][direction]}
-        }
-      }
-
       return {
         open: !prevState.open,
-        allRules: clonedAllRules,
         tempSelectedRules: prevState.open 
                             ? this.props.selectedRules.map(rule => {
                                 return {...rule}

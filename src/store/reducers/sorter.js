@@ -1,6 +1,25 @@
 import * as actionTypes from '../actions/actionTypes'
 
 const initialState = {
+  /**
+   * selectedRule will look like:
+   * 
+   * [
+   *    {
+   *      name: "populationUp",
+   *      column: "population",
+   *      direction: "up",
+   *      type: "number"
+   *    },
+   *    {
+   *      name: "nameUp",
+   *      column: "name",
+   *      direction: "up",
+   *      type: "string"
+   *    }
+   * ]
+   * 
+   */
   selectedRules: []
 }
 
