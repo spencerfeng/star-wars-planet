@@ -75,17 +75,17 @@ class PlanetsFilterItem extends Component {
       html = (
         <React.Fragment>
           <div className="px-4 py-3 border-b border-purple-lighter border-solid">
-            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.state.checked} /><span className="text-white ml-1">Name</span></label>
+            <label><input onChange={this.toggleCheckbox} type="checkbox" checked={this.state.checked} /><span className="text-white ml-1">Name</span></label>
           </div>
           <div className="px-4 py-3 bg-purple-lighter">
-            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule}>
+            <select onChange={this.updateSelectedRule} className="h6 mr-2" value={this.state.selectedRule}>
               {Object.keys(this.props.rules).map(rule => {
                 return (
                   <option key={rule} value={rule}>{this['props']['rules'][rule]}</option>
                 )
               })}
             </select>
-            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.state.value} />
+            <input onChange={this.updateValue} className="rounded p-1" type="text" value={this.state.value} />
           </div>
         </React.Fragment>
       )
@@ -94,17 +94,17 @@ class PlanetsFilterItem extends Component {
       html = (
         <React.Fragment>
           <div className="px-4 py-3 border-b border-purple-lighter border-solid">
-            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.state.checked} /><span className="text-white ml-1">Terrain</span></label>
+            <label><input onChange={this.toggleCheckbox} type="checkbox" checked={this.state.checked} /><span className="text-white ml-1">Terrain</span></label>
           </div>
           <div className="px-4 py-3 bg-purple-lighter">
-            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule}>
+            <select onChange={this.updateSelectedRule} className="h6 mr-2" value={this.state.selectedRule}>
               {Object.keys(this.props.rules).map(rule => {
                 return (
                   <option key={rule} value={rule}>{this['props']['rules'][rule]}</option>
                 )
               })}
             </select>
-            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.state.value} />
+            <input onChange={this.updateValue} className="rounded p-1" type="text" value={this.state.value} />
           </div>
         </React.Fragment>
       )
