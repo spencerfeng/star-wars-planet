@@ -2,32 +2,32 @@ import React, { Component } from 'react'
 
 class PlanetsFilterItem extends Component {
   state = {
-    checked: null,
-    selectedRule: null,
-    value: null
+    initialSyncTempSelFilterInfoDone: false,
+    checked: false,
+    selectedRule: '',
+    value: ''
   }
 
-  rulesRef = React.createRef()
-  valueRef = React.createRef()
-
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.checked === null && prevState.selectedRule === null && prevState.value === null) {
+    if (!prevState.initialSyncTempSelFilterInfoDone) {
       return {
         checked: nextProps.selected,
-        selectedRule: nextProps.selectedRule === null ? Object.keys(nextProps.rules)[0] : nextProps.selectedRule,
-        value: nextProps.value
+        selectedRule: nextProps.selectedRule,
+        value: nextProps.value,
+        initialSyncTempSelFilterInfoDone: true
       }
     }
 
-    return prevState
+    return null
     
   } 
 
   updateValue = e => {
+    const newValue = e.target.value
+
     this.setState(prevState => {
       return {
-        ...prevState,
-        value: this.valueRef.current.value
+        value: newValue
       }
     }, () => {
       if (this.state.checked === false) {
@@ -39,10 +39,11 @@ class PlanetsFilterItem extends Component {
   }
 
   updateSelectedRule = e => {
+    const newRule = e.target.value
+
     this.setState(prevState => {
       return {
-        ...prevState,
-        selectedRule: this.rulesRef.current.value
+        selectedRule: newRule
       }
     }, () => {
       if (this.state.checked === false) {
@@ -56,7 +57,6 @@ class PlanetsFilterItem extends Component {
   toggleCheckbox = () => {
     this.setState(prevState => {
       return {
-        ...prevState,
         checked: !prevState.checked
       }
     }, () => {
@@ -75,17 +75,17 @@ class PlanetsFilterItem extends Component {
       html = (
         <React.Fragment>
           <div className="px-4 py-3 border-b border-purple-lighter border-solid">
-            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.props.selected} /><span className="text-white ml-1">Name</span></label>
+            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.state.checked} /><span className="text-white ml-1">Name</span></label>
           </div>
           <div className="px-4 py-3 bg-purple-lighter">
-            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule} ref={this.rulesRef}>
+            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule}>
               {Object.keys(this.props.rules).map(rule => {
                 return (
                   <option key={rule} value={rule}>{this['props']['rules'][rule]}</option>
                 )
               })}
             </select>
-            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.props.value} ref={this.valueRef} />
+            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.state.value} />
           </div>
         </React.Fragment>
       )
@@ -94,17 +94,17 @@ class PlanetsFilterItem extends Component {
       html = (
         <React.Fragment>
           <div className="px-4 py-3 border-b border-purple-lighter border-solid">
-            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.props.selected} /><span className="text-white ml-1">Terrain</span></label>
+            <label><input onChange={this.toggleCheckbox} type="checkbox" value="name" defaultChecked={this.state.checked} /><span className="text-white ml-1">Terrain</span></label>
           </div>
           <div className="px-4 py-3 bg-purple-lighter">
-            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule} ref={this.rulesRef}>
+            <select onChange={this.updateSelectedRule} className="h6 mr-2" defaultValue={this.state.selectedRule}>
               {Object.keys(this.props.rules).map(rule => {
                 return (
                   <option key={rule} value={rule}>{this['props']['rules'][rule]}</option>
                 )
               })}
             </select>
-            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.props.value} ref={this.valueRef} />
+            <input onChange={this.updateValue} className="rounded p-1" type="text" defaultValue={this.state.value} />
           </div>
         </React.Fragment>
       )

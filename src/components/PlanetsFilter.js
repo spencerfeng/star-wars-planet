@@ -22,12 +22,26 @@ class PlanetsFilter extends Component {
         }
       }
     },
+    /**
+     * the 'tempSelectedFilters' state will have the following shape:
+     * 
+     * [
+     *    {
+     *      column: 'terrain',
+     *      rule: 'beginsWith',
+     *      value: 'ac'
+     *    },
+     *    {
+     *      column: 'name',
+     *      rule: 'beginsWith',
+     *      value: 'ab'
+     *    }
+     * ]
+     */
     tempSelectedFilters: []
   }
 
   applyFilter = () => {
-    console.log('tempSelectedFilters: ', this.state.tempSelectedFilters)
-
     // Update the global 'selectedFilterRules' state
     this.props.updateFilterRules(this.state.tempSelectedFilters)
 
@@ -36,19 +50,8 @@ class PlanetsFilter extends Component {
 
   toggleFilter = () => {
     this.setState(prevState => {
-      const clonedFilters = {...prevState.filters}
-      for (let col in prevState.filters) {
-        clonedFilters[col]['rules'] = {...prevState['filters'][col]['rules']}
-      }
-
-      const clonedTempSelectedFilters = prevState.tempSelectedFilters.map(f => {
-        return {...f}
-      })
-
       return {
-        open: !prevState.open,
-        filters: clonedFilters,
-        tempSelectedFilters: clonedTempSelectedFilters
+        open: !prevState.open
       }
     })
   }
@@ -63,18 +66,11 @@ class PlanetsFilter extends Component {
       // New rule
       if (filter === undefined) {
         this.setState(prevState => {
-          const clonedFilters = {...prevState.filters}
-          for (let col in prevState.filters) {
-            clonedFilters[col]['rules'] = {...prevState['filters'][col]['rules']}
-          }
-
           const clonedTempSelectedFilters = prevState.tempSelectedFilters.map(f => {
             return {...f}
           })
 
           return {
-            ...prevState,
-            filters: clonedFilters,
             tempSelectedFilters: [
               ...clonedTempSelectedFilters,
               {
@@ -89,11 +85,6 @@ class PlanetsFilter extends Component {
       // Old rule
       else {
         this.setState(prevState => {
-          const clonedFilters = {...prevState.filters}
-          for (let col in prevState.filters) {
-            clonedFilters[col]['rules'] = {...prevState['filters'][col]['rules']}
-          }
-
           const clonedAndUpdatedTempSelectedFilters = prevState.tempSelectedFilters.map(f => {
             if (f.column === column) {
               return {
@@ -106,8 +97,6 @@ class PlanetsFilter extends Component {
           })
 
           return {
-            ...prevState,
-            filters: clonedFilters,
             tempSelectedFilters: clonedAndUpdatedTempSelectedFilters
           }
         })
@@ -118,18 +107,11 @@ class PlanetsFilter extends Component {
     if (deleteFlag === 1) {
       if (filter !== undefined) {
         this.setState(prevState => {
-          const clonedFilters = {...prevState.filters}
-          for (let col in prevState.filters) {
-            clonedFilters[col]['rules'] = {...prevState['filters'][col]['rules']}
-          }
-
           const clonedAndUpdatedTempSelectedFilters = prevState.tempSelectedFilters.filter(f => {
             return f.column !== column
           })
 
           return {
-            ...prevState,
-            filters: clonedFilters,
             tempSelectedFilters: clonedAndUpdatedTempSelectedFilters
           }
         })
@@ -156,7 +138,7 @@ class PlanetsFilter extends Component {
                     return f.column === filter
                   })
                   const selected = selectedFilter === undefined ? false : true
-                  const selectedRule = selectedFilter === undefined ? null : selectedFilter.rule
+                  const selectedRule = selectedFilter === undefined ? Object.keys(this['state']['filters'][filter]['rules'])[0] : selectedFilter.rule
                   const value = selectedFilter === undefined ? '' : selectedFilter.value
     
                   return (
