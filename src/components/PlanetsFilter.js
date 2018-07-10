@@ -5,6 +5,7 @@ import * as actions from '../store/actions/index'
 
 class PlanetsFilter extends Component {
   state = {
+    clearFilters: false,
     open: false,
     filters: {
       name: {
@@ -46,6 +47,19 @@ class PlanetsFilter extends Component {
     this.props.updateFilterRules(this.state.tempSelectedFilters)
 
     this.props.applyFilter()
+  }
+
+  clearFilters = () => {
+    this.setState({
+      clearFilters: true,
+      tempSelectedFilters: []
+    })
+  }
+
+  resetClearFiltersState = () => {
+    this.setState({
+      clearFilters: false
+    })
   }
 
   toggleFilter = () => {
@@ -147,14 +161,17 @@ class PlanetsFilter extends Component {
                       rules={this['state']['filters'][filter]['rules']}
                       selected={selected}
                       selectedRule={selectedRule}
+                      reset={this.state.clearFilters}
                       value={value}
                       key={filter}
-                      updateTempSelectedFilters={this.onUpdateTempSelectedFilters} />
+                      updateTempSelectedFilters={this.onUpdateTempSelectedFilters}
+                      resetClearFiltersState={this.resetClearFiltersState} />
                   )
                 })}
               </form>
               <div className="px-4 py-3 text-center">
-                <button onClick={this.applyFilter} className="text-white border-white border-solid border text-xs px-2 py-1 rounded">APPLY</button>
+                <button onClick={this.clearFilters} className="text-white border-white border-solid border text-xs px-2 py-1 mx-1 rounded">CLEAR</button>
+                <button onClick={this.applyFilter} className="text-white border-white border-solid border text-xs px-2 py-1 mx-1 rounded">APPLY</button>
               </div>
             </div>
           )}

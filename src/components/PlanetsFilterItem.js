@@ -18,9 +18,24 @@ class PlanetsFilterItem extends Component {
       }
     }
 
+    if (nextProps.reset) {
+      return {
+        checked: nextProps.selected,
+        selectedRule: nextProps.selectedRule,
+        value: nextProps.value
+      }
+    }
+
     return null
     
-  } 
+  }
+
+  componentDidUpdate() {
+    // We need to set the 'clearFilters' state in the parent component to false
+    if (this.props.reset) {
+      this.props.resetClearFiltersState()
+    }
+  }
 
   updateValue = e => {
     const newValue = e.target.value
