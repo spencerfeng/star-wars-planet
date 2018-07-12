@@ -39,7 +39,21 @@ class PlanetsFilter extends Component {
      *    }
      * ]
      */
-    tempSelectedFilters: []
+    tempSelectedFilters: [],
+    initialSyncedTempSelFiltersWithGlobalPreDefinedSelFilters: false
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.initialSyncedTempSelFiltersWithGlobalPreDefinedSelFilters === false) {
+      return {
+        tempSelectedFilters: nextProps.filterRules.map(rule => {
+          return {...rule}
+        }),
+        initialSyncedTempSelFiltersWithGlobalPreDefinedSelFilters: true
+      }
+    }
+
+    return null
   }
 
   applyFilter = () => {
