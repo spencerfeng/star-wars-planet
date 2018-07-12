@@ -8,14 +8,18 @@ Spencer Feng
 - Tailwind CSS
 - FontAwesome
 
-## Extra Features
+## Features
 
-- The user is able to filter planets by name in following ways
+- Display all planets (61 in total) from the https://swapi.co/api/planets API 
+- The user is able to filter planets by planet name in following ways
   - begins with
   - is equal to
   - contains
-- The user is able to filter planet by terrain in following ways
+- The user is able to filter planets by terrain in following ways
   - begins with
   - is equal to
   - contains
-- The user is able to filter by both planet and terrain
+- The user is able to filter planets by both planet and terrain
+- The user is able to sort planets by planet population 
+- The user is able to sort planets by planet name
+- The user is able to sort planets by both planet population and planet name
