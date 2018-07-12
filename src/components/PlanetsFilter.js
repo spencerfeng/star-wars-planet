@@ -64,8 +64,17 @@ class PlanetsFilter extends Component {
 
   toggleFilter = () => {
     this.setState(prevState => {
-      return {
-        open: !prevState.open
+      if (prevState.open) {
+        return {
+          open: !prevState.open,
+          tempSelectedFilters: this.props.filterRules.map(rule => {
+            return {...rule}
+          })
+        }
+      } else {
+        return {
+          open: !prevState.open
+        }
       }
     })
   }
