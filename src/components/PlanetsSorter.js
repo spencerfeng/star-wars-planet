@@ -161,15 +161,17 @@ class PlanetsSorter extends Component {
 
   toggleSort = () => {
     this.setState(prevState => {
-      return {
-        open: !prevState.open,
-        tempSelectedRules: prevState.open 
-                            ? this.props.selectedRules.map(rule => {
-                                return {...rule}
-                              })
-                            : prevState.tempSelectedRules.map(rule => {
-                                return {...rule}
-                              })
+      if (prevState.open) {
+        return {
+          open: !prevState.open,
+          tempSelectedRules: this.props.selectedRules.map(rule => {
+            return {...rule}
+          })
+        }
+      } else {
+        return {
+          open: !prevState.open
+        }
       }
     })
   }
